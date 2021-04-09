@@ -57,6 +57,12 @@ export class BackendStack extends cdk.Stack {
       resources: ["*"]
     }));
 
+    new apigatewayv2.WebSocketStage(this, 'mystage', {
+      webSocketApi: api,
+      stageName: 'prod',
+      autoDeploy: true,
+    });
+
     /*const getAllIntegration = new apigateway.LambdaIntegration(getAllLambda);
     items.addMethod('GET', getAllIntegration);
 
