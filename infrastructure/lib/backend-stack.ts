@@ -1,10 +1,8 @@
 import * as cdk from '@aws-cdk/core';
-import apigateway = require("@aws-cdk/aws-apigateway");
 import apigatewayv2 = require("@aws-cdk/aws-apigatewayv2");
 import apigatewayv2_integrations = require("@aws-cdk/aws-apigatewayv2-integrations");
 import lambda = require("@aws-cdk/aws-lambda");
 import dynamodb = require("@aws-cdk/aws-dynamodb");
-import { IFunction } from '@aws-cdk/aws-lambda';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
 
 export class BackendStack extends cdk.Stack {  
@@ -62,51 +60,5 @@ export class BackendStack extends cdk.Stack {
       stageName: 'prod',
       autoDeploy: true,
     });
-
-    /*const getAllIntegration = new apigateway.LambdaIntegration(getAllLambda);
-    items.addMethod('GET', getAllIntegration);
-
-    const createOneIntegration = new apigateway.LambdaIntegration(createOne);
-    items.addMethod('POST', createOneIntegration);
-    addCorsOptions(items);
-
-    const singleItem = items.addResource('{id}');
-    const getOneIntegration = new apigateway.LambdaIntegration(getOneLambda);
-    singleItem.addMethod('GET', getOneIntegration);
-
-    const updateOneIntegration = new apigateway.LambdaIntegration(updateOne);
-    singleItem.addMethod('PATCH', updateOneIntegration);
-
-    const deleteOneIntegration = new apigateway.LambdaIntegration(deleteOne);
-    singleItem.addMethod('DELETE', deleteOneIntegration);
-    addCorsOptions(singleItem);*/
   }
-}
-
-function addCorsOptions(apiResource: apigateway.IResource) {
-  apiResource.addMethod('OPTIONS', new apigateway.MockIntegration({
-    integrationResponses: [{
-      statusCode: '200',
-      responseParameters: {
-        'method.response.header.Access-Control-Allow-Headers': "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-        'method.response.header.Access-Control-Allow-Origin': "'*'",
-        'method.response.header.Access-Control-Allow-Credentials': "'false'",
-        'method.response.header.Access-Control-Allow-Methods': "'OPTIONS,GET,PUT,POST,DELETE'",
-      },
-    }],
-    passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
-    requestTemplates: {
-      "application/json": "{\"statusCode\": 200}"
-    },
-  }), {
-    methodResponses: [{
-      statusCode: '200',
-      responseParameters: {
-        'method.response.header.Access-Control-Allow-Headers': true,
-        'method.response.header.Access-Control-Allow-Methods': true,
-        'method.response.header.Access-Control-Allow-Credentials': true,
-        'method.response.header.Access-Control-Allow-Origin': true,
-      },  
-    }]
-  })
 }
